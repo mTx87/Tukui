@@ -25,15 +25,42 @@ f:SetScript("OnEvent", function()
 	if not IsShiftKeyDown() then
 		if CanMerchantRepair() and C["others"].autorepair then
 			local cost, possible = GetRepairAllCost()
-			if cost>0 then
-				if possible then
-					RepairAllItems()
-					local c = cost%100
-					local s = math.floor((cost%10000)/100)
-					local g = math.floor(cost/10000)
-					DEFAULT_CHAT_FRAME:AddMessage(L.merchant_repaircost.." |cffffffff"..g..L.goldabbrev.." |cffffffff"..s..L.silverabbrev.." |cffffffff"..c..L.copperabbrev..".",255,255,0)
-				else
-					DEFAULT_CHAT_FRAME:AddMessage(L.merchant_repairnomoney,255,0,0)
+			local c = cost%100
+			local s = math.floor((cost%10000)/100)
+			local g = math.floor(cost/10000)
+			if C["others"].guildrepair then
+				if cost > 0 then
+					if possible then
+						local BankMoney = GetGuildBankMoney()
+
+						local BankWithdrawMoney = GetGuildBankWithdrawMoney()
+
+						if CanGuildBankRepair() and BankMoney >= cost and (BankWithdrawMoney == -1 or BankWithdrawMoney >= cost) then
+
+							RepairAllItems(1)
+
+							DEFAULT_CHAT_FRAME:AddMessage(L.merchant_guildrepair.." |cffffffff"..g..L.goldabbrev.." |cffffffff"..s..L.silverabbrev.." |cffffffff"..c..L.copperabbrev..".", 255, 255, 0)
+
+						else
+
+							DEFAULT_CHAT_FRAME:AddMessage(L["Guild bank does not have enough money. Using yours."], 255, 255, 0)
+
+							RepairAllItems()
+							DEFAULT_CHAT_FRAME:AddMessage(L.merchant_repaircost.." |cffffffff"..g..L.goldabbrev.." |cffffffff"..s..L.silverabbrev.." |cffffffff"..c..L.copperabbrev..".",255,255,0)
+
+						end
+					else
+						DEFAULT_CHAT_FRAME:AddMessage(L.merchant_guildnomoney,255,0,0)
+					end
+				end
+			else
+				if cost>0 then
+					if possible then
+						RepairAllItems()
+						DEFAULT_CHAT_FRAME:AddMessage(L.merchant_repaircost.." |cffffffff"..g..L.goldabbrev.." |cffffffff"..s..L.silverabbrev.." |cffffffff"..c..L.copperabbrev..".",255,255,0)
+					else
+						DEFAULT_CHAT_FRAME:AddMessage(L.merchant_repairnomoney,255,0,0)
+					end
 				end
 			end
 		end
@@ -45,9 +72,7 @@ f:RegisterEvent("MERCHANT_SHOW")
 local savedMerchantItemButton_OnModifiedClick = MerchantItemButton_OnModifiedClick
 function MerchantItemButton_OnModifiedClick(self, ...)
 	if ( IsAltKeyDown() ) then
-		local itemLink = GetMerchantItemLink(self:GetID())
-		if not itemLink then return end
-		local maxStack = select(8, GetItemInfo(itemLink))
+		local maxStack = select(8, GetItemInfo(GetMerchantItemLink(self:GetID())))
 		if ( maxStack and maxStack > 1 ) then
 			BuyMerchantItem(self:GetID(), GetMerchantItemMaxStack(self:GetID()))
 		end

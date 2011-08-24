@@ -3418,6 +3418,12 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Auto Repair"],
 								desc = L["Automatically repair when visiting a vendor"],							
 							},
+							guildrepair = {
+								type = "toggle",
+								order = 5,
+								name = L["Guild Repair"],
+								desc = L["Use guild bank funds to repair."],
+							},
 						},
 					},
 					AurasGroup = {
