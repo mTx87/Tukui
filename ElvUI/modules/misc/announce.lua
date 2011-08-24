@@ -9,19 +9,19 @@ announce:SetScript("OnEvent", function(self, _, _, event, _, sourceGUID, _, _, _
 	
 	if C["others"].announceinterrupt == "PARTY" then
 		if GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPTED.." "..destName.."'s \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
+			SendChatMessage(INTERRUPTED.." \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
 		end
 	elseif C["others"].announceinterrupt == "RAID" then
 		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(INTERRUPTED.." "..destName.."'s \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "RAID", nil, nil)		
+			SendChatMessage(INTERRUPTED.." \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "RAID", nil, nil)		
 		elseif GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPTED.." "..destName.."'s \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
+			SendChatMessage(INTERRUPTED.." \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
 		end	
 	elseif C["others"].announceinterrupt == "SAY" then
 		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(INTERRUPTED.." "..destName.."'s \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "SAY", nil, nil)		
+			SendChatMessage(INTERRUPTED.." \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "SAY", nil, nil)		
 		elseif GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPTED.." "..destName.."'s \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "SAY", nil, nil)
+			SendChatMessage(INTERRUPTED.." \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "SAY", nil, nil)
 		end		
 	end
 end)
